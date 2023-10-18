@@ -1,14 +1,9 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+peg::parser!{
+    pub grammar list_parser() for str {
+      rule number() -> u32
+        = n:$(['0'..='9']+) {? n.parse().or(Err("u32")) }
+  
+      pub rule list() -> Vec<u32>
+        = "[" l:(number() ** ",") "]" { l }
     }
-}
+  }
