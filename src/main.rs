@@ -1,4 +1,13 @@
-use parser_on_rust::list_parser;
+use parser_on_rust::scheme;
 pub fn main() {
-    println!("{:?}", list_parser::list("[1,1,2,3,5,8]"));
+    let input = "https://example.com/path";
+
+    match scheme(input) {
+        Ok(scheme) => {
+            println!("Scheme: {}", scheme);
+        }
+        Err(err) => {
+            println!("Error: {}", err);
+        }
+    }
 }
