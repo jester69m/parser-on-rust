@@ -6,7 +6,8 @@ peg::parser!{
       pub rule list() -> Vec<u32>
         = "[" l:(number() ** ",") "]" { l }
     
+      #[no_eof]
       pub rule scheme() -> String
-        = s:$("[a-z]+") ":" { s.to_string() }
+        = s:$(['a'..='z' | '0'..='9' | '-' | '.']+) ":" { s.to_string() }
     }
 }

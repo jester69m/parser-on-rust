@@ -1,8 +1,8 @@
-use parser_on_rust::scheme;
+use parser_on_rust::url_parser;
 pub fn main() {
     let input = "https://example.com/path";
-
-    match scheme(input) {
+    
+    match url_parser::scheme(input) {
         Ok(scheme) => {
             println!("Scheme: {}", scheme);
         }
