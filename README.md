@@ -12,8 +12,6 @@ This project implements a URL parser in Rust using the [`pest`](https://pest.rs/
 
 - **Error Handling:** Proper error handling is implemented using the `Result` type, ensuring graceful handling of parsing errors.
 
-- **Command-Line Interface (CLI):** The project includes a simple command-line interface allowing users to input URLs for parsing.
-
 ## Project Structure
 
 The project is structured as follows:
@@ -49,22 +47,23 @@ The project relies on the pest crate for parsing and pest_derive for procedural 
 
 ```toml
 [dependencies]
-pest = "2.1.3"
-pest_derive = "2.1.3"
+pest = "2.7.5"
+pest_derive = "2.7.5"  
 ```
 
 ## URL Grammar
 ```pest
 url = { scheme ~ "://" ~ host ~ (":" ~ port)? ~ (path ~ ("/" ~ file)? ~ ("?" ~ query)? ~ ("#" ~ fragment)?)? }
-scheme = { identifier }
-host = { identifier }
+scheme = { identifier_with_optional_dot }
+host = { identifier_with_optional_dot }
 port = { number }
 path = { "/" ~ identifier ~ ("/" ~ identifier)* }
-file = { identifier ~ ("." ~ identifier)* }
 query = { identifier ~ ("=" ~ identifier)* }
 fragment = { identifier }
+file = { identifier ~ ("." ~ identifier)* }
 
 identifier = { ASCII_ALPHANUMERIC+ }
+identifier_with_optional_dot = { identifier ~ ( "." ~ ASCII_ALPHANUMERIC+)* }
 number = { DIGIT+ }
 
 WHITESPACE = _{ " " | "\n" | "\t" }
@@ -80,3 +79,5 @@ DIGIT = _{ '0'..'9' }
 - **User Input Handling:** Implement a more robust user input handling mechanism, allowing users to input URLs interactively.
 
 - **Error Messages:** Enhance error messages to provide more detailed information about parsing failures.
+
+- **Command-Line Interface (CLI):** The project includes a simple command-line interface allowing users to input URLs for parsing.
