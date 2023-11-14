@@ -1,0 +1,17 @@
+url = { scheme ~ "://" ~ host ~ (":" ~ port)? ~ (path ~ ("/" ~ file)? ~ ("?" ~ query)? ~ ("#" ~ fragment)?)? }
+scheme = { identifier_with_optional_dot }
+host = { identifier_with_optional_dot }
+port = { number }
+path = { "/" ~ identifier ~ ("/" ~ identifier)* }
+query = { identifier ~ ("=" ~ identifier)* }
+fragment = { identifier }
+file = { identifier ~ ("." ~ identifier)* }
+
+identifier = { ASCII_ALPHANUMERIC+ }
+identifier_with_optional_dot = { identifier ~ ( "." ~ ASCII_ALPHANUMERIC+)* }
+number = { DIGIT+ }
+
+WHITESPACE = _{ " " | "\n" | "\t" }
+ASCII_ALPHANUMERIC = _{ ASCII_ALPHABET | DIGIT }
+ASCII_ALPHABET = _{ 'a'..'z' | 'A'..'Z' }
+DIGIT = _{ '0'..'9' }
