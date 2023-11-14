@@ -4,6 +4,30 @@
 
 This project implements a URL parser in Rust using the [`pest`](https://pest.rs/) parser generator. The parser is designed to handle various components of a URL, including the scheme, host, port, path, query parameters, and fragment.
 
+## Installation
+To use parser in your Rust project, add it as a dependency in your Cargo.toml file:
+```toml
+[dependencies]
+parser_on_rust = "0.1.0"
+```
+Select the current version on crates.io: [`parser_on_rust`](https://crates.io/crates/parser-on-rust)
+## Usage
+### As lib
+First, import the library in your Rust code:
+```rust
+use parser_on_rust::parse_url;
+```
+Then, you can convert Markdown text to HTML using the parse_markdown function:
+```rust
+fn main() {
+    let url_string = "https://www.example.com/path?query=some";
+    match parse_url(url_string) {
+        Ok(parsed_url) => println!("Successfully parsed URL: {:?}", parsed_url),
+        Err(err) => eprintln!("Error parsing URL: {}", err),
+    }
+}
+```
+
 ## Features
 
 - **Flexible URL Parsing:** The parser supports a wide range of URL formats, allowing for flexibility in the structure of the provided URLs.

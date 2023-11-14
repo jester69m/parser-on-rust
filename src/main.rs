@@ -2,6 +2,14 @@ use std::error::Error;
 
 use parser_on_rust::parse_url;
 
+// fn main() {
+//     let url_string = "https://www.example.com/path?query=some";
+//     match parse_url(url_string) {
+//         Ok(parsed_url) => println!("Successfully parsed URL: {:?}", parsed_url),
+//         Err(err) => eprintln!("Error parsing URL: {}", err),
+//     }
+// }
+
 fn main() -> Result<(), Box<dyn Error>> {
     // Example URLs to parse
     let urls = [
