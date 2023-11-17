@@ -1,4 +1,4 @@
-# parser_on_rust
+# url_parser_on_rust
 
 ## Overview
 
@@ -8,14 +8,14 @@ This project implements a URL parser in Rust using the [`pest`](https://pest.rs/
 To use parser in your Rust project, add it as a dependency in your Cargo.toml file:
 ```toml
 [dependencies]
-parser_on_rust = "0.1.4"
+url_parser_on_rust = "1.0.0"
 ```
-Select the current version on crates.io: [`parser_on_rust`](https://crates.io/crates/parser-on-rust)
+Select the current version on crates.io: [`url_parser_on_rust`](https://crates.io/crates/url_parser_on_rust)
 ## Usage
 ### As lib
 First, import the library in your Rust code:
 ```rust
-use parser_on_rust::parse_url;
+use url_parser_on_rust::parse_url;
 ```
 Then, you can convert Markdown text to HTML using the parse_markdown function:
 ```rust
@@ -26,6 +26,14 @@ fn main() {
         Err(err) => eprintln!("Error parsing URL: {}", err),
     }
 }
+```
+### As CLI
+You can also use this parser as a command-line tool. To do this, first install the Rust toolchain on your system. Then, clone the repository and build the project:
+```bash
+$ make help
+$ make run path/to/file/file.txt 
+or
+$ make run http://urlfrom.com
 ```
 
 ## Features
@@ -53,7 +61,9 @@ The project is structured as follows:
 To run the project, execute the following command:
 
 ```bash
-cargo run
+$ cargo run -- parse http://example.com
+or
+$ cargo run -- parse path/to/file/file.txt
 ```
 This will execute the main.rs file, demonstrating the parsing of example URLs.
 
@@ -73,7 +83,8 @@ The project relies on the pest crate for parsing and pest_derive for procedural 
 [dependencies]
 pest = "2.7.5"
 pest_derive = "2.7.5"  
-clap = "4.4.8" 
+clap = "2.33"
+thiserror = "1.0.0" 
 ```
 
 ## URL Grammar
@@ -96,13 +107,3 @@ ASCII_ALPHANUMERIC = _{ ASCII_ALPHABET | DIGIT }
 ASCII_ALPHABET = _{ 'a'..'z' | 'A'..'Z' }
 DIGIT = _{ '0'..'9' }
 ```
-
-## Future Enhancements
-
-- **Additional URL Components:** Extend the parser to support additional URL components if needed.
-
-- **User Input Handling:** Implement a more robust user input handling mechanism, allowing users to input URLs interactively.
-
-- **Error Messages:** Enhance error messages to provide more detailed information about parsing failures.
-
-- **Command-Line Interface (CLI):** The project includes a simple command-line interface allowing users to input URLs for parsing.

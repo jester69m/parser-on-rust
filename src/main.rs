@@ -61,8 +61,30 @@ fn run() -> Result<(), AppError> {
         ("credits", _) => {
             println!("Credits: Nazar Pashchuk(mail: nazar.pashchuk@ukma.edu.ua; github: https://github.com/jester69m)");
         }
+        ("help", _) => {
+            println!("URL Parser CLI - Help Information\n");
+            println!("1. Parse a URL from a String:\n");
+            println!("```bash");
+            println!("cargo run -- parse http://example.com");
+            println!("```");
+            println!("Replace `http://example.com` with the URL you want to parse.\n");
+            println!("2. Parse a URL from a File:\n");
+            println!("```bash");
+            println!("cargo run -- parse path/to/your/file.txt");
+            println!("```");
+            println!("Ensure that the file at the specified path contains a valid URL.\n");
+            println!("3. Help Information:\n");
+            println!("```bash");
+            println!("cargo run -- help");
+            println!("```");
+            println!("Prints information about how to use the URL Parser CLI.\n");
+            println!("4. Credits Information:\n");
+            println!("```bash");
+            println!("cargo run -- credits");
+            println!("```");
+            println!("Prints credits information for the URL Parser CLI.");
+        }
         _ => {
-            // No subcommand or an unrecognized subcommand provided
             return Err(AppError::InvalidSubcommand);
         }
     }

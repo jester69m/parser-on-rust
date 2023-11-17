@@ -1,5 +1,7 @@
+.PHONY: help credits
+
 run: 
-	cargo run
+	cargo run -- parse $(filter-out $@,$(MAKECMDGOALS))
 
 test:
 	cargo test
@@ -11,3 +13,9 @@ clippy:
 	cargo clippy
 
 precommit: test fmt clippy
+
+help: 
+	cargo run -- help
+
+credits:
+	cargo run -- credits
