@@ -1,34 +1,71 @@
-use std::error::Error;
+use clap::{App, Arg, SubCommand};
+use std::fs::File;
+use std::io::{self, Read};
+use std::process;
+use thiserror::Error;
+use url_parser_on_rust::{parse_url, ParseUrlError};
 
-use parser_on_rust::parse_url;
+#[derive(Debug, Error)]
+enum AppError {
+    #[error("IO error: {0}")]
+    IoError(#[from] io::Error),
+    #[error("URL parsing error: {0}")]
+    UrlParsingError(#[from] ParseUrlError),
+    #[error("Invalid subcommand. Use '--help' for more information.")]
+    InvalidSubcommand,
+}
 
-// fn main() {
-//     let url_string = "https://www.example.com/path?query=some";
-//     match parse_url(url_string) {
-//         Ok(parsed_url) => println!("Successfully parsed URL: {:?}", parsed_url),
-//         Err(err) => eprintln!("Error parsing URL: {}", err),
-//     }
-// }
+impl From<&str> for AppError {
+    fn from(s: &str) -> Self {
+        AppError::UrlParsingError(ParseUrlError::ParsingError(s.to_string()))
+    }
+}
 
-fn main() -> Result<(), Box<dyn Error>> {
-    // Example URLs to parse
-    let urls = [
-        "https://www.example.com",
-        "http://localhost:8080/path?query=value#fragment",
-        "ftp://example.org",
-        "https://www.example.com:8080",
-        "invalid-url",
-    ];
+fn main() {
+    if let Err(err) = run() {
+        eprintln!("Error: {}", err);
+        process::exit(1);
+    }
+}
 
-    for url in urls {
-        match parse_url(url) {
-            Ok(parsed_url) => {
-                println!("Successfully parsed URL: {:?}", parsed_url);
-            }
-            Err(err) => {
-                eprintln!("Error parsing URL '{}': {}", url, err);
+fn run() -> Result<(), AppError> {
+    let matches = App::new("URL Parser")
+        .version("0.1.4")
+        .author("Nazar Pashchuk(nazar.pashchuk@ukma.edu.ua)")
+        .about("Parse URLs from a file or command-line input")
+        .subcommand(
+            SubCommand::with_name("parse")
+                .about("Parse a URL")
+                .arg(Arg::with_name("input").help("The URL or File path to parse")),
+        )
+        .subcommand(SubCommand::with_name("help").about("Print help information"))
+        .subcommand(SubCommand::with_name("credits").about("Pring credit information"))
+        .get_matches();
+
+    match matches.subcommand() {
+        ("parse", Some(parse_matches)) => {
+            if let Some(input) = parse_matches.value_of("input") {
+                if let Ok(url) = File::open(input) {
+                    let mut content = String::new();
+                    url.take(1024).read_to_string(&mut content)?;
+                    let parsed_url = parse_url(&content)?;
+                    println!("{:#?}", parsed_url);
+                } else {
+                    let parsed_url = parse_url(input)?;
+                    println!("{:#?}", parsed_url);
+                }
+            } else {
+                return Err(AppError::InvalidSubcommand);
             }
         }
+        ("credits", _) => {
+            println!("Credits: Nazar Pashchuk(mail: nazar.pashchuk@ukma.edu.ua; github: https://github.com/jester69m)");
+        }
+        _ => {
+            // No subcommand or an unrecognized subcommand provided
+            return Err(AppError::InvalidSubcommand);
+        }
     }
+
     Ok(())
 }

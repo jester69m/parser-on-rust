@@ -1,11 +1,16 @@
-use std::error::Error;
-
 use pest::Parser;
 use pest_derive::Parser;
+use thiserror::Error;
 
 #[derive(Parser)]
 #[grammar = "url.pest"]
 struct UrlParser;
+
+#[derive(Debug, Error)]
+pub enum ParseUrlError {
+    #[error("Error parsing URL: {0}")]
+    ParsingError(String),
+}
 
 #[derive(Debug)]
 pub struct ParsedUrl {
@@ -32,10 +37,10 @@ impl ParsedUrl {
     }
 }
 
-pub fn parse_url(url_string: &str) -> Result<ParsedUrl, Box<dyn Error>> {
+pub fn parse_url(url_string: &str) -> Result<ParsedUrl, ParseUrlError> {
     let pairs = match UrlParser::parse(Rule::url, url_string) {
         Ok(pairs) => pairs,
-        Err(e) => return Err(format!("Error parsing URL: {}", e).into()),
+        Err(e) => return Err(ParseUrlError::ParsingError(format!("{}", e))),
     };
 
     let mut parsed_url = ParsedUrl::new();

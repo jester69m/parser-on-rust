@@ -1,4 +1,4 @@
-# URL Parser Project
+# parser_on_rust
 
 ## Overview
 
@@ -8,7 +8,7 @@ This project implements a URL parser in Rust using the [`pest`](https://pest.rs/
 To use parser in your Rust project, add it as a dependency in your Cargo.toml file:
 ```toml
 [dependencies]
-parser_on_rust = "0.1.3"
+parser_on_rust = "0.1.4"
 ```
 Select the current version on crates.io: [`parser_on_rust`](https://crates.io/crates/parser-on-rust)
 ## Usage
@@ -73,6 +73,7 @@ The project relies on the pest crate for parsing and pest_derive for procedural 
 [dependencies]
 pest = "2.7.5"
 pest_derive = "2.7.5"  
+clap = "4.4.8" 
 ```
 
 ## URL Grammar

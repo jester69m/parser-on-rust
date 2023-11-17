@@ -1,4 +1,4 @@
-use parser_on_rust::parse_url;
+use url_parser_on_rust::parse_url;
 
 #[test]
 fn test_parse_url_with_scheme_and_host_only() {
