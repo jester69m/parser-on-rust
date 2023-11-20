@@ -17,7 +17,7 @@ First, import the library in your Rust code:
 ```rust
 use url_parser_on_rust::parse_url;
 ```
-Then, you can convert Markdown text to HTML using the parse_markdown function:
+Then, you can parse url using the parse_url function:
 ```rust
 fn main() {
     let url_string = "https://www.example.com/path?query=some";
